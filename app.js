@@ -10,10 +10,10 @@ class Despesas {
 
   validarDados() {
     for (let i in this) {
-      if (this[i] == undefined || this[i] || "" || this[i] == null) {
-        return true;
-      } else {
+      if (this[i] == "" || this[i] == null || this[i] == undefined) {
         return false;
+      } else {
+        return true;
       }
     }
   }
@@ -114,25 +114,55 @@ function cadastrarDispesa() {
   let descricao = document.querySelector("#descricao").value;
   let valor = document.querySelector("#valor").value;
 
-  let despesas = new Despesas(ano, mes, dia, tipo, descricao, valor);
-
-  if (despesas.validarDados()) {
-    bd.gravar(despesas);
-    $("#sucessoGravacao").modal("show");
-
-    // LIMPA OS CAMPOS DO INPUT
-
-    ano = document.querySelector("#ano").value = "";
-    mes = document.querySelector("#mes").value = "";
-    dia = document.querySelector("#dia").value = "";
-    tipo = document.querySelector("#tipo").value = "";
-    descricao = document.querySelector("#descricao").value = "";
-    valor = document.querySelector("#valor").value = "";
-  } else {
+  // Segunda validação dos valores
+  if (
+    ano === "" ||
+    mes === "" ||
+    dia === "" ||
+    tipo === "" ||
+    descricao === "" ||
+    valor === ""
+  ) {
     // ERRO AO VALIDAR O DADOS
     $("#erroGravacao").modal("show");
     //alert("Preencha todos os campos :(")
+  } else {
+    let despesas = new Despesas(ano, mes, dia, tipo, descricao, valor);
+
+    if (despesas.validarDados()) {
+      bd.gravar(despesas);
+      $("#sucessoGravacao").modal("show");
+
+      // LIMPA OS CAMPOS DO INPUT
+
+      ano = document.querySelector("#ano").value = "";
+      mes = document.querySelector("#mes").value = "";
+      dia = document.querySelector("#dia").value = "";
+      tipo = document.querySelector("#tipo").value = "";
+      descricao = document.querySelector("#descricao").value = "";
+      valor = document.querySelector("#valor").value = "";
+    }
   }
+
+  // let despesas = new Despesas(ano, mes, dia, tipo, descricao, valor);
+
+  // if (despesas.validarDados()) {
+  //   bd.gravar(despesas);
+  //   $("#sucessoGravacao").modal("show");
+
+  //   // LIMPA OS CAMPOS DO INPUT
+
+  //   ano = document.querySelector("#ano").value = "";
+  //   mes = document.querySelector("#mes").value = "";
+  //   dia = document.querySelector("#dia").value = "";
+  //   tipo = document.querySelector("#tipo").value = "";
+  //   descricao = document.querySelector("#descricao").value = "";
+  //   valor = document.querySelector("#valor").value = "";
+  // } else {
+  //   // ERRO AO VALIDAR O DADOS
+  //   $("#erroGravacao").modal("show");
+  //   //alert("Preencha todos os campos :(")
+  // }
 }
 
 function carregaListaDespesas() {
